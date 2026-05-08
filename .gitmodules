@@ -1,6 +1,6 @@
 [submodule "packages/nomad-FAIR"]
 	path = packages/nomad-FAIR
-	url = https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR.git
+	url = https://github.com/PTiringer/nomad-FAIR.git
 [submodule "packages/wiki-page"]
 	path = packages/wiki-page
 	url = https://github.com/PTiringer/Wiki-page.git
