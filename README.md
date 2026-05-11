@@ -5,7 +5,7 @@
 This deliverable uses fixed commits of the included submodules:
 
 - `packages/nomad-FAIR`: [`70e51bc`](https://github.com/PTiringer/nomad-FAIR/tree/70e51bc75523bda522a735e183221f5e979319ca)
-- `packages/wiki-page`: [`<7f3a24>`](https://github.com/PTiringer/wiki-page/tree/<7f3a24320c393fcbf465082b29a86ec197dc6d7a>)
+- `packages/wiki-page`: [`7f3a243`](https://github.com/PTiringer/wiki-page/tree/7f3a24320c393fcbf465082b29a86ec197dc6d7a)
 
 
 
