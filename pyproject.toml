@@ -22,6 +22,7 @@ dependencies = [
   #"nomad-parser-plugins-database>=1.0",
   "nomad-external-eln-integrations",
   "nomad-wiki-page",
+  "lxml-html-clean>=0.4.4",
 ]
 
 [tool.uv.workspace]
