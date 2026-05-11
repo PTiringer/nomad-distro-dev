@@ -1,3 +1,39 @@
+# OSCARS first deliverable May 2026
+
+## Frozen submodule versions
+
+This deliverable uses fixed commits of the included submodules:
+
+- `packages/nomad-FAIR`: [`70e51bc`](https://github.com/PTiringer/nomad-FAIR/tree/70e51bc75523bda522a735e183221f5e979319ca)
+- `packages/wiki-page`: [`<7f3a24>`](https://github.com/PTiringer/wiki-page/tree/<7f3a24320c393fcbf465082b29a86ec197dc6d7a>)
+
+
+
+### Set up the NOMAD platform with the extended ESRTET-PaNET-NeXus ontology at MPI CBS.:
+
+- The platform has been installed on the MPI CBS local infrastructure, a first test instance has been installed on a local linux server: comps11h06.
+- A full test deployment is currently in progress.
+
+### Integrate it to the local environment and data storage. Apply and extend the ontology to also cover additional experiment techniques, like Nuclear Magnetic Resonance. 
+
+- The platform has been developed to the specific needs for the insititut:
+   - the RichTextEditor has been edited to support full screen development.
+   - The explore page has been edited to only support necessary search entries.
+   - A user specific login page has been created, which can be costumized for each user.
+ 
+### Implement NOMAD plugins for data injestion, and search app.
+
+- A new plugin "wiki page", has been created to set up an environment to store project information and make the information searchable:
+   - A plugin specific feature has been added: To Dos
+   - An AI summary function is currently in work
+
+
+
+
+
+
+# Installation
+
 Start by forking this [main repository](https://github.com/FAIRmat-NFDI/nomad-distro-dev) that will house all your plugins.
 
 # NOMAD Dev Distribution
