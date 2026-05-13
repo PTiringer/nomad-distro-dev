@@ -1,0 +1,207 @@
+definitions:
+  name: "DeliverableSchema"
+  sections:
+    Project:
+      base_sections:
+        - "nomad.datamodel.data.EntryData"
+      quantities:
+        title:
+         type: str
+         description: "Enter the title of the project."
+         m_annotations:
+          eln:
+           component: StringEditQuantity
+        description:
+         type: str
+         description: "Formulate what the project is about."
+         m_annotations:
+          eln:
+           component: StringEditQuantity
+        project_ID:
+          type: str
+          description: "Each project is assigned an ID to uniquely identify it."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        poject_proposal:
+          type: str
+          description: "Give a concise description of the research idea, the key hypotheses and the methodology to be applied."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        consents:
+          type: str
+          description: "What consents are needed from participants about their personal data (egarding the collection, processing, and storage of sensitive data.)?"
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        letter_of_acceptance:
+          type: str
+          description: "?????????????????????"
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        required_attributes:
+          type: str
+          description: "Specify all participant characteristics that must be recorded for the study(e.g. age, sex/gender, handedness ...)."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        notes_wikipages:
+          type: str
+          description: "Use this section to capture notes, ideas, thoughts related to the project in an informal and flexible way."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+    researcher:
+      base_sections:
+        - "nomad.datamodel.data.EntryData"
+      quantities:
+        researcher:
+          type: str
+          description: "Enter information about the participating scientists (e.g. name)"
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        contact:
+          type: str
+          description: "Enter information about how to reach out to the researcher."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        time_until_leaving:
+          type: str
+          description: "Enter the duration of the researcher's contract and the corresponding end date."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+    subject:
+      base_sections:
+        - "nomad.datamodel.data.EntryData"
+      quantities:
+        subject:
+          type: str
+          description: "Enter information about the participating subject (e.g. name)"
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        consent_status:
+          type: str
+          description: "Indicate the scope of the participants consent regarding the use of their data (e.g. whether it may be used for internal research only, publication, or future studies)."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+    data:
+      base_sections:
+        - "nomad.datamodel.data.EntryData"
+      quantities:
+        time_stamp:
+          type: str
+          description: "Provide the date and time linked to the dataset, serving as a reference point for its creation or acquisition."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        other_keys:
+          type: str
+          description: "Provide any additional identifiers associated with the dataset, if applicable."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        automatically_generated_metadata:
+          type: str
+          description: "Capture metadata generated automatically by the instrument, such as acquisition parameters and system settings."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        attributes_of_specimen:
+          type: str
+          description: "Enter the specific values for the subjects attributes as collected during the study."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        referencing_the_project:
+          type: str
+          description: "????????????? Specify the associated project by providing its name or identifier. / Link this dataset to the corresponding project to ensure consistent referencing and traceability."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+    data_lifecycle:
+      base_sections:
+        - "nomad.datamodel.data.EntryData"
+      quantities:
+        processing_information:
+          type: str
+          description: "Document the data generation and processing steps, including command-line inputs, scripts, software, or source data."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        on_wikipage:
+          type: str
+          description: "If applicable, provide a link to a wiki page containing detailed information on data generation and processing."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        with_data:
+          type: str
+          description: "Specify the dataset that results from or is used in the described processing or generation steps."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        storage_and_archive:
+          type: str
+          description: "Specify how the data are stored and archived, including storage systems, formats, and long-term preservation solutions."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        default_preview:
+          type: str
+          description: "Define the default preview representation of the data (e.g. figure, chart, image, or 3D volume view), optimized for performance (e.g. thumbnail < 200 pixels)."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+    publication:
+      base_sections:
+        - "nomad.datamodel.data.EntryData"
+      quantities:
+        document:
+          type: str
+          description: "???????? Provide the associated publication document, either as a reference (e.g. title or identifier) or as an uploaded file."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        metadata_of_dokument:
+          type: str
+          description: "Provide standard bibliographic metadata of the document, such as author, year, journal, publisher, and DOI."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        references_to_data:
+          type: str
+          description: "Provide links or identifiers for the original data underlying the publication."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        frozen_published_dataset:    
+          type: str
+          description: "Provide the final, frozen (read-only) version of the dataset used for publication and assigne the DOI for persistent identification."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        methods_applied:
+          type: str
+          description: "Provide details on the methods used, including software, programs, protocols, operating systems, and version information."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        access_limitations:
+          type: str
+          description: "Specify any access limitations for the supplementary material, including who may access the data (e.g. institute-only, MPS-wide, public), ethical restrictions, embargo periods, and conditions or contacts required for access."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
+        funding:
+          type: str
+          description: "Provide information on financial support, including project funding and publication-related funding."
+          m_annotations:
+            eln:
+              component: StringEditQuantity
