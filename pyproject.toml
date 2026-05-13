@@ -22,6 +22,7 @@ dependencies = [
   #"nomad-parser-plugins-database>=1.0",
   "nomad-external-eln-integrations",
   "nomad-wiki-page",
+  "lxml_html_clean",
 ]
 
 [tool.uv.workspace]
@@ -38,6 +39,7 @@ nomad-wiki-page = { workspace = true }
 [tool.uv]
 extra-index-url = [
   "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple",
+  "sys_platform == 'linux' and python_full_version == '3.12.*'",
 ]
 required-version = ">=0.5.14"
 constraint-dependencies = ["flatdict>=4.1.0"]
