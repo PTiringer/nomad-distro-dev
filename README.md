@@ -6,7 +6,7 @@ This deliverable uses fixed commits of the included submodules:
 
 - `packages/nomad-FAIR`: [`70e51bc`](https://github.com/PTiringer/nomad-FAIR/tree/70e51bc75523bda522a735e183221f5e979319ca)
 - `packages/wiki-page`: [`7f3a243`](https://github.com/PTiringer/wiki-page/tree/7f3a24320c393fcbf465082b29a86ec197dc6d7a)
-
+- `packages/schemas`: [`2f313c5`](https://github.com/PTiringer/schemas/tree/2f313c53b6a4be5cb31af24bbaeaaaace2605c59)
 
 
 ### Set up the NOMAD platform with the extended ESRTET-PaNET-NeXus ontology at MPI CBS.:
@@ -20,7 +20,7 @@ This deliverable uses fixed commits of the included submodules:
    - the RichTextEditor has been edited to support full screen development.
    - The explore page has been edited to only support necessary search entries.
    - A user specific login page has been created, which can be costumized for each user.
-   - A initial version of the schema to support the local RDM workflow has been implemented and added to the platform. See [Schema file](deliverable1/deliverable1.schema.archive.yaml) for further information.
+   - A initial version of the schema to support the local RDM workflow has been implemented and added to the platform. See [Schema file](https://github.com/PTiringer/schemas/blob/stable/deliverable/deliverable1.schema.archive.yaml) for further information.
  
 ### Implement NOMAD plugins for data injestion, and search app.
 
