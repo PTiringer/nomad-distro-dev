@@ -20,7 +20,7 @@ This deliverable uses fixed commits of the included submodules:
    - the RichTextEditor has been edited to support full screen development.
    - The explore page has been edited to only support necessary search entries.
    - A user specific login page has been created, which can be costumized for each user.
-   - A initial version of the schema to support the local RDM workflow has been implemented and added to the platform. See [Schema file](deliverable/deliverable1.schema.archive.yaml) for further information.
+   - A initial version of the schema to support the local RDM workflow has been implemented and added to the platform. See [Schema file](deliverable1/deliverable1.schema.archive.yaml) for further information.
  
 ### Implement NOMAD plugins for data injestion, and search app.
 
