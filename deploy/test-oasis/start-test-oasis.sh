@@ -20,6 +20,10 @@ fi
 : "${OASIS_HTTP_PORT:=80}"
 : "${NOMAD_IMAGE:=gitlab-registry.mpcdf.mpg.de/nomad-lab/nomad-fair:latest}"
 
+if [ -z "${NOMAD_SERVICES_API_SECRET:-}" ]; then
+    NOMAD_SERVICES_API_SECRET="$(openssl rand -hex 32)"
+fi
+
 if [ -z "${DOCKER_GID:-}" ]; then
     DOCKER_GID="$(getent group docker 2>/dev/null | cut -d: -f3 || true)"
     DOCKER_GID="${DOCKER_GID:-991}"
@@ -35,9 +39,17 @@ fi
 
 OASIS_PUBLIC_URL="${OASIS_SCHEME}://${OASIS_HOST}${OASIS_BASE_PATH}"
 
-export DOCKER_GID NOMAD_IMAGE OASIS_HTTP_PORT
+export DOCKER_GID NOMAD_IMAGE OASIS_HTTP_PORT NOMAD_SERVICES_API_SECRET
 
-mkdir -p configs .volumes/fs .volumes/mongo
+mkdir -p configs .volumes/fs/tmp .volumes/fs/public .volumes/fs/staging .volumes/fs/north/users .volumes/mongo
+
+if command -v sudo >/dev/null 2>&1 && [ "$(id -u)" -ne 0 ]; then
+    sudo chown -R 1000:1000 .volumes/fs
+    sudo chmod -R u+rwX,g+rwX .volumes/fs
+else
+    chown -R 1000:1000 .volumes/fs
+    chmod -R u+rwX,g+rwX .volumes/fs
+fi
 
 sed \
     -e "s|__OASIS_HOST__|${OASIS_HOST}|g" \
@@ -51,7 +63,27 @@ sed \
 docker compose pull
 docker compose up -d
 
-printf '\nNOMAD Oasis started.\n'
-printf 'Alive endpoint: %s/alive\n' "$OASIS_PUBLIC_URL"
-printf 'GUI: %s/gui/\n' "$OASIS_PUBLIC_URL"
+echo "Waiting for NOMAD app to become healthy. First startup can take 10-15 minutes."
+for _ in $(seq 1 120); do
+    status="$(docker inspect -f '{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' nomad_oasis_app 2>/dev/null || true)"
 
+    if [ "$status" = "healthy" ]; then
+        printf '\nNOMAD Oasis started.\n'
+        printf 'Alive endpoint: %s/alive\n' "$OASIS_PUBLIC_URL"
+        printf 'GUI: %s/gui/\n' "$OASIS_PUBLIC_URL"
+        exit 0
+    fi
+
+    if [ "$status" = "exited" ] || [ "$status" = "dead" ]; then
+        echo "nomad_oasis_app exited during startup. Recent logs:"
+        docker compose logs --tail=120 app || true
+        exit 1
+    fi
+
+    sleep 10
+done
+
+echo "NOMAD app did not become healthy within 20 minutes."
+docker compose ps || true
+docker compose logs --tail=120 app || true
+exit 1
