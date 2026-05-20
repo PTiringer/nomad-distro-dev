@@ -18,7 +18,8 @@ fi
 : "${OASIS_DEPLOYMENT:=institute-test-oasis}"
 : "${OASIS_MAINTAINER_EMAIL:=nomad-admin@example.org}"
 : "${OASIS_HTTP_PORT:=80}"
-: "${NOMAD_IMAGE:=gitlab-registry.mpcdf.mpg.de/nomad-lab/nomad-fair:latest}"
+: "${NOMAD_IMAGE:=nomad-oasis-local:stable}"
+: "${BUILD_NOMAD_IMAGE:=true}"
 
 if [ -z "${NOMAD_SERVICES_API_SECRET:-}" ]; then
     NOMAD_SERVICES_API_SECRET="$(openssl rand -hex 32)"
@@ -39,7 +40,7 @@ fi
 
 OASIS_PUBLIC_URL="${OASIS_SCHEME}://${OASIS_HOST}${OASIS_BASE_PATH}"
 
-export DOCKER_GID NOMAD_IMAGE OASIS_HTTP_PORT NOMAD_SERVICES_API_SECRET
+export DOCKER_GID NOMAD_IMAGE OASIS_HTTP_PORT NOMAD_SERVICES_API_SECRET BUILD_NOMAD_IMAGE
 
 mkdir -p configs .volumes/fs/tmp .volumes/fs/public .volumes/fs/staging .volumes/fs/north/users .volumes/mongo
 
@@ -60,7 +61,17 @@ sed \
     -e "s|__NORTH_CRYPT_KEY__|${NORTH_CRYPT_KEY}|g" \
     configs/nomad.yaml.template > configs/nomad.yaml
 
-docker compose pull
+if [ "$BUILD_NOMAD_IMAGE" = "true" ]; then
+    if [ ! -f "../../packages/nomad-FAIR/Dockerfile" ]; then
+        echo "Cannot build local NOMAD image: ../../packages/nomad-FAIR/Dockerfile not found."
+        exit 1
+    fi
+
+    echo "Building local NOMAD image: $NOMAD_IMAGE"
+    docker build --target dev_package -t "$NOMAD_IMAGE" ../../packages/nomad-FAIR
+fi
+
+docker compose pull rabbitmq elastic mongo temporal proxy
 docker compose up -d
 
 echo "Waiting for NOMAD app to become healthy. First startup can take 10-15 minutes."
