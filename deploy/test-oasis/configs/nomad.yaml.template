@@ -1,0 +1,32 @@
+services:
+  api_host: "__OASIS_HOST__"
+  api_base_path: "__OASIS_BASE_PATH__"
+
+oasis:
+  is_oasis: true
+  uses_central_user_management: true
+
+north:
+  jupyterhub_crypt_key: "__NORTH_CRYPT_KEY__"
+
+meta:
+  deployment: "__OASIS_DEPLOYMENT__"
+  deployment_url: "__OASIS_PUBLIC_URL__/api"
+  maintainer_email: "__OASIS_MAINTAINER_EMAIL__"
+
+logtransfer:
+  enabled: false
+
+auth:
+  require_authentication: false
+  unauthenticated_user_scopes:
+    include:
+      - "*:read"
+
+mongo:
+  db_name: nomad_oasis_v1
+
+elastic:
+  entries_index: nomad_oasis_entries_v1
+  materials_index: nomad_oasis_materials_v1
+
