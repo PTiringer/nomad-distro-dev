@@ -20,6 +20,11 @@ fi
 : "${OASIS_HTTP_PORT:=80}"
 : "${NOMAD_IMAGE:=nomad-oasis-local:stable}"
 : "${BUILD_NOMAD_IMAGE:=true}"
+: "${NOMAD_BUILD_MODE:=full}"
+
+if [ "${NOMAD_BUILD_MODE}" = "python-overlay" ]; then
+    NOMAD_BUILD_MODE=full
+fi
 
 if [ -z "${NOMAD_SERVICES_API_SECRET:-}" ]; then
     NOMAD_SERVICES_API_SECRET="$(openssl rand -hex 32)"
@@ -40,16 +45,18 @@ fi
 
 OASIS_PUBLIC_URL="${OASIS_SCHEME}://${OASIS_HOST}${OASIS_BASE_PATH}"
 
-export DOCKER_GID NOMAD_IMAGE OASIS_HTTP_PORT NOMAD_SERVICES_API_SECRET BUILD_NOMAD_IMAGE
+export DOCKER_GID NOMAD_IMAGE OASIS_HTTP_PORT NOMAD_SERVICES_API_SECRET BUILD_NOMAD_IMAGE NOMAD_BUILD_MODE
 
 mkdir -p configs .volumes/fs/tmp .volumes/fs/public .volumes/fs/staging .volumes/fs/north/users .volumes/mongo
 
-if command -v sudo >/dev/null 2>&1 && [ "$(id -u)" -ne 0 ]; then
+if [ "$(id -u)" -eq 0 ]; then
+    chown -R 1000:1000 .volumes/fs
+    chmod -R u+rwX,g+rwX .volumes/fs
+elif command -v sudo >/dev/null 2>&1 && sudo -n true 2>/dev/null; then
     sudo chown -R 1000:1000 .volumes/fs
     sudo chmod -R u+rwX,g+rwX .volumes/fs
 else
-    chown -R 1000:1000 .volumes/fs
-    chmod -R u+rwX,g+rwX .volumes/fs
+    chmod -R u+rwX,g+rwX .volumes/fs 2>/dev/null || true
 fi
 
 sed \
@@ -62,13 +69,79 @@ sed \
     configs/nomad.yaml.template > configs/nomad.yaml
 
 if [ "$BUILD_NOMAD_IMAGE" = "true" ]; then
-    if [ ! -f "../../packages/nomad-FAIR/Dockerfile" ]; then
-        echo "Cannot build local NOMAD image: ../../packages/nomad-FAIR/Dockerfile not found."
-        exit 1
-    fi
+    if [ "$NOMAD_BUILD_MODE" = "full" ]; then
+        if [ ! -f "../../packages/nomad-FAIR/Dockerfile" ]; then
+            echo "Cannot build local NOMAD image: ../../packages/nomad-FAIR/Dockerfile not found."
+            exit 1
+        fi
 
-    echo "Building local NOMAD image: $NOMAD_IMAGE"
-    docker build --target dev_package -t "$NOMAD_IMAGE" ../../packages/nomad-FAIR
+        echo "Building local NOMAD image: $NOMAD_IMAGE"
+        docker build --target dev_package -t "$NOMAD_IMAGE" ../../packages/nomad-FAIR
+    else
+        if [ ! -d "../../packages/nomad-FAIR/nomad" ]; then
+            echo "Cannot build local NOMAD image: ../../packages/nomad-FAIR/nomad not found."
+            exit 1
+        fi
+
+        cat > Dockerfile.nomad-local <<'EOF'
+FROM gitlab-registry.mpcdf.mpg.de/nomad-lab/nomad-fair:latest
+
+USER root
+RUN python - <<'PY' > /tmp/nomad-target.txt
+import os
+import nomad
+
+print(os.path.dirname(nomad.__file__))
+PY
+
+COPY packages/nomad-FAIR/nomad /tmp/nomad-local/nomad
+COPY packages/nomad-FAIR/scripts /tmp/nomad-local/scripts
+
+RUN python - <<'PY'
+import os
+import shutil
+
+with open('/tmp/nomad-target.txt', encoding='utf-8') as f:
+    target = f.read().strip()
+
+source = '/tmp/nomad-local/nomad'
+
+for name in os.listdir(source):
+    src = os.path.join(source, name)
+    dst = os.path.join(target, name)
+
+    if os.path.isdir(src):
+        if name == 'app' and os.path.isdir(os.path.join(dst, 'static', 'gui')):
+            gui_static = os.path.join(dst, 'static', 'gui')
+            backup = '/tmp/nomad-gui-static'
+            if os.path.exists(backup):
+                shutil.rmtree(backup)
+            shutil.copytree(gui_static, backup)
+            if os.path.exists(dst):
+                shutil.rmtree(dst)
+            shutil.copytree(src, dst)
+            restored = os.path.join(dst, 'static', 'gui')
+            os.makedirs(os.path.dirname(restored), exist_ok=True)
+            if os.path.exists(restored):
+                shutil.rmtree(restored)
+            shutil.copytree(backup, restored)
+        else:
+            if os.path.exists(dst):
+                shutil.rmtree(dst)
+            shutil.copytree(src, dst)
+    else:
+        shutil.copy2(src, dst)
+
+shutil.rmtree('/tmp/nomad-local')
+os.remove('/tmp/nomad-target.txt')
+PY
+
+USER 1000
+EOF
+
+        echo "Building local NOMAD image: $NOMAD_IMAGE"
+        docker build -f Dockerfile.nomad-local -t "$NOMAD_IMAGE" ../..
+    fi
 fi
 
 docker compose pull rabbitmq elastic mongo temporal proxy
