@@ -146,6 +146,7 @@ fi
 
 docker compose pull rabbitmq elastic mongo temporal proxy
 docker compose up -d
+docker compose up -d --force-recreate proxy
 
 echo "Waiting for NOMAD app to become healthy. First startup can take 10-15 minutes."
 for _ in $(seq 1 120); do

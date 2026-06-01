@@ -20,6 +20,12 @@ Set `OASIS_HOST` to the DNS name or IP address that users can open in a browser.
 
 For a plain local test keep `OASIS_SCHEME=http`. If you put HTTPS in front of this service later, set `OASIS_SCHEME=https` and keep the frontend proxy headers aligned.
 
+After changing `configs/nginx.conf`, recreate the proxy container so Docker remounts the updated file:
+
+```sh
+docker compose up -d --force-recreate proxy
+```
+
 ## Start
 
 From this directory:
@@ -50,4 +56,3 @@ docker compose down
 ```
 
 Managed data is stored in Docker volumes and under `.volumes/` in this directory.
-
