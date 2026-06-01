@@ -1,6 +1,7 @@
 services:
   api_host: "__OASIS_HOST__"
   api_base_path: "__OASIS_BASE_PATH__"
+  https: __OASIS_HTTPS__
   optimade_enabled: false
 
 oasis:
