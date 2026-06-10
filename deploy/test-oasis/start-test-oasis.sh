@@ -49,6 +49,25 @@ if [ "${OASIS_SCHEME}" = "https" ]; then
     OASIS_HTTPS=true
 fi
 
+if [ "${1:-}" = "elastic-unblock" ]; then
+    echo "Host disk usage:"
+    df -h .
+    echo
+    echo "Docker disk usage:"
+    docker system df || true
+    echo
+    echo "Elasticsearch allocation:"
+    docker exec nomad_oasis_elastic curl -s "http://localhost:9200/_cat/allocation?v" || true
+    echo
+    echo "Clearing Elasticsearch read-only flood-stage index blocks..."
+    docker exec nomad_oasis_elastic curl -s -X PUT \
+        "http://localhost:9200/_all/_settings?expand_wildcards=all" \
+        -H "Content-Type: application/json" \
+        -d '{"index.blocks.read_only_allow_delete": null}'
+    echo
+    exit 0
+fi
+
 export DOCKER_GID NOMAD_IMAGE OASIS_HTTP_PORT NOMAD_SERVICES_API_SECRET BUILD_NOMAD_IMAGE NOMAD_BUILD_MODE
 
 mkdir -p configs .volumes/fs/tmp .volumes/fs/public .volumes/fs/staging .volumes/fs/north/users .volumes/mongo
