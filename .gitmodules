@@ -4,6 +4,6 @@
 [submodule "packages/wiki-page"]
 	path = packages/wiki-page
 	url = https://github.com/PTiringer/Wiki-page.git
-[submodule "packages/MPI-CBS-scientific-staff-databse"]
-	path = packages/MPI-CBS-scientific-staff-databse
+[submodule "packages/MPI-CBS-scientific-staff-database"]
+	path = packages/MPI-CBS-scientific-staff-database
 	url = https://github.com/PTiringer/MPI_CBS_scientific_staff_database.git
