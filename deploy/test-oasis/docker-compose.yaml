@@ -141,15 +141,6 @@ services:
       retries: 30
       start_period: 300s
 
-  north-permissions:
-    image: busybox:1.36
-    container_name: nomad_oasis_north_permissions
-    user: "0:0"
-    volumes:
-      - ./.volumes/fs/north:/north
-    command: sh -c "chown -R 1000:1000 /north && chmod -R u+rwX,g+rwX /north"
-    restart: "no"
-
   north:
     restart: unless-stopped
     image: ${NOMAD_IMAGE:-nomad-oasis-local:stable}
@@ -171,10 +162,7 @@ services:
       - ./configs/nomad.yaml:/app/nomad.yaml:ro
       - ./.volumes/fs:/app/.volumes/fs
       - /var/run/docker.sock:/var/run/docker.sock
-    depends_on:
-      north-permissions:
-        condition: service_completed_successfully
-    user: "1000:${DOCKER_GID:-991}"
+    user: "0:${DOCKER_GID:-991}"
     command: python -m nomad.cli admin run hub
     healthcheck:
       test: ["CMD", "curl", "--fail", "--silent", "--max-time", "10", "http://localhost:8081/nomad-oasis/north/hub/health"]
