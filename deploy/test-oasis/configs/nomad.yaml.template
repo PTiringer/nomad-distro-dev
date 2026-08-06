@@ -11,8 +11,8 @@ oasis:
 north:
   jupyterhub_crypt_key: "__NORTH_CRYPT_KEY__"
   tools:
-    exclude:
-      - "*"
+    include:
+      - jupyter
 
 meta:
   deployment: "__OASIS_DEPLOYMENT__"
