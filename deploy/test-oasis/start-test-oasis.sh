@@ -100,7 +100,17 @@ if [ "$BUILD_NOMAD_IMAGE" = "true" ]; then
         fi
 
         echo "Building local NOMAD image: $NOMAD_IMAGE"
-        docker build --target dev_package -t "$NOMAD_IMAGE" ../../packages/nomad-FAIR
+        docker build --target dev_package -t "${NOMAD_IMAGE}-core" ../../packages/nomad-FAIR
+        cat > Dockerfile.nomad-distro <<EOF
+FROM ${NOMAD_IMAGE}-core
+
+COPY packages/wiki-page /tmp/wiki-page
+COPY packages/MPI-CBS-scientific-staff-database /tmp/mpi-cbs-scientific-staff-database
+COPY packages/qa-plotter /tmp/qa-plotter
+RUN uv pip install --no-deps /tmp/wiki-page /tmp/mpi-cbs-scientific-staff-database /tmp/qa-plotter \
+    && rm -rf /tmp/wiki-page /tmp/mpi-cbs-scientific-staff-database /tmp/qa-plotter
+EOF
+        docker build -f Dockerfile.nomad-distro -t "$NOMAD_IMAGE" ../..
     else
         if [ ! -d "../../packages/nomad-FAIR/nomad" ]; then
             echo "Cannot build local NOMAD image: ../../packages/nomad-FAIR/nomad not found."
@@ -120,6 +130,9 @@ PY
 
 COPY packages/nomad-FAIR/nomad /tmp/nomad-local/nomad
 COPY packages/nomad-FAIR/scripts /tmp/nomad-local/scripts
+COPY packages/wiki-page /tmp/wiki-page
+COPY packages/MPI-CBS-scientific-staff-database /tmp/mpi-cbs-scientific-staff-database
+COPY packages/qa-plotter /tmp/qa-plotter
 
 RUN python - <<'PY'
 import os
@@ -159,6 +172,9 @@ for name in os.listdir(source):
 shutil.rmtree('/tmp/nomad-local')
 os.remove('/tmp/nomad-target.txt')
 PY
+
+RUN python -m pip install --no-deps /tmp/wiki-page /tmp/mpi-cbs-scientific-staff-database /tmp/qa-plotter \
+    && rm -rf /tmp/wiki-page /tmp/mpi-cbs-scientific-staff-database /tmp/qa-plotter
 
 USER 1000
 EOF

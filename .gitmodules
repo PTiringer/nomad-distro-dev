@@ -7,3 +7,6 @@
 [submodule "packages/MPI-CBS-scientific-staff-database"]
 	path = packages/MPI-CBS-scientific-staff-database
 	url = https://github.com/PTiringer/MPI_CBS_scientific_staff_database.git
+[submodule "packages/qa-plotter"]
+	path = packages/qa-plotter
+	url = https://github.com/PTiringer/qa-plotter.git
