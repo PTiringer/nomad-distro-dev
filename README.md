@@ -1,33 +1,78 @@
-# OSCARS first deliverable September 2026
+# OSCARS Final Deliverable – September 2026
 
-## Frozen submodule versions
+## Frozen Submodule Versions
 
-This deliverable uses fixed commits of the included submodules:
+This deliverable uses fixed commits of the included submodules to ensure that the exact software versions used for the final demonstrator can be reproduced.
 
 - `packages/nomad-FAIR`: [`a6c658e`](https://github.com/PTiringer/nomad-FAIR/tree/a6c658ea6f7b69d70cc9dea771ba3d60fd79e2ea)
 - `packages/wiki-page`: [`a09f673`](https://github.com/PTiringer/wiki-page/tree/a09f6734cd3d1c85df0a45b7ec586b03aa748505)
 - `packages/schemas`: [`3926d77`](https://github.com/PTiringer/schemas/tree/3926d77e609675c57a40203279d1e2f9cc4564f8)
-- `packages/MPI_CBS_scientific_staff_database`: [`e8b820f`] (https://github.com/PTiringer/MPI_CBS_scientific_staff_database/tree/e8b820fbb581effb8a23102e7bff5f807fa8f224)
-- `packages/qa-plotter`: [`af1d940`] (https://github.com/PTiringer/qa-plotter/tree/af1d94090163e5efb9a7b80d2c5e5184bddd5d85)
+- `packages/MPI_CBS_scientific_staff_database`: [`e8b820f`](https://github.com/PTiringer/MPI_CBS_scientific_staff_database/tree/e8b820fbb581effb8a23102e7bff5f807fa8f224)
+- `packages/qa-plotter`: [`af1d940`](https://github.com/PTiringer/qa-plotter/tree/af1d94090163e5efb9a7b80d2c5e5184bddd5d85)
 
-### Set up the NOMAD platform with the extended ESRTET-PaNET-NeXus ontology at MPI CBS.:
 
-- The platform has been installed on the MPI CBS local infrastructure, a first test instance has been installed on a local linux server: comps11h06.
-- A full test deployment is currently in progress.
+## Implement Solutions for Raw Data Retrieval from NOMAD
 
-### Integrate it to the local environment and data storage. Apply and extend the ontology to also cover additional experiment techniques, like Nuclear Magnetic Resonance. 
+At MPI CBS, MRT measurement data are stored as raw data in separate storage folders, while the corresponding measurement metadata are maintained in an existing legacy database.
 
-- The platform has been developed to the specific needs for the insititut:
-   - the RichTextEditor has been edited to support full screen development.
-   - The explore page has been edited to only support necessary search entries.
-   - A user specific login page has been created, which can be costumized for each user.
-   - A initial version of the schema to support the local RDM workflow has been implemented and added to the platform. See [Schema file](https://github.com/PTiringer/schemas/blob/stable/deliverable/deliverable1.schema.archive.yaml) for further information.
- 
-### Implement NOMAD plugins for data injestion, and search app.
+For the deliverable, the new `qa-plotter` plugin provides an integration between this existing infrastructure and NOMAD. It retrieves the relevant information from the legacy database and makes the measurement data and associated metadata accessible through NOMAD.
 
-- A new plugin "wiki page", has been created to set up an environment to store project information and make the information searchable:
-   - A plugin specific feature has been added: To Dos
-   - An AI summary function is currently in work
+In parallel, a new schema for representing scientific MRT projects at MPI CBS has been finalized. The schema provides a structured representation of the relevant project, measurement, personnel, and related metadata.
+
+![Different sections in the CBS Project schema](screenshots/Schema-definitions.png)
+
+
+The schema has additionally been converted into an OWL ontology and mapped to relevant external ontologies. This provides a semantic representation of the metadata and improves interoperability with other research data management systems and standards.
+
+![Ontology for the schema](screenshots/Ontology.png)
+
+The resulting metadata are indexed by NOMAD and can therefore be searched and filtered using NOMAD's search functionality.
+
+Internal references between NOMAD entries and the underlying data storage provide access to the associated raw datasets without requiring the original data storage structure to be replaced.
+
+
+
+
+## Implement Solutions for Data Analysis in the NOMAD Remote Tools Hub
+
+The second part of the deliverable extends the integration from discovering and retrieving scientific data to working with these data directly within the NOMAD environment.
+
+The `qa-plotter` plugin integrates a normalizer that obtains the relevant information from the legacy infrastructure and transforms it into a representation that can be handled and displayed by NOMAD.
+
+NOMAD NORTH has been activated and configured with a Jupyter Notebook container. NORTH provides an interactive analysis environment connected to the NOMAD infrastructure and allows users to work with the available research data without requiring a separate local analysis environment.
+
+An example Jupyter Notebook is included in the deliverable to demonstrate how the data exposed through `qa-plotter` can be accessed and used from within the NOMAD Remote Tools Hub.
+
+The demonstrated workflow is:
+
+**Legacy MRT data → `qa-plotter` normalizer → NOMAD → NORTH / Jupyter Notebook → interactive data analysis**
+
+This complements the raw-data retrieval functionality described above. While the first part establishes the mechanisms required to discover and access existing research data, this part demonstrates how the accessible data can subsequently be used in an interactive analysis environment.
+
+
+![QA-Plotter in action](screenshots/qa-plotter.png)
+
+## Prepare Data Analysis Tools for the Scientific Demonstrator and Contribute to the Dissemination of the Results
+
+The Scientific Demonstrator combines the individual components developed within the project into an end-to-end scientific workflow.
+
+The demonstrator integrates ontology-based searches for scientific datasets stored in remote data storage systems. Users can define search criteria based on the available metadata and ontology concepts to identify datasets relevant to a particular scientific question.
+
+Datasets matching the specified filters are retrieved from the corresponding remote storage systems.
+
+The retrieved datasets can subsequently be processed using the EWOCS workflow manager. EWOCS provides the workflow execution layer for applying predefined data-processing and analysis workflows to the selected datasets.
+
+Results produced by these workflows are registered in NOMAD. This allows derived data and analysis results to become part of the same research data management environment as the original datasets and their metadata.
+
+The resulting end-to-end workflow is:
+
+**Ontology-based search → dataset discovery → remote data retrieval → EWOCS processing → generated results → registration in NOMAD**
+
+An example of the Scientific Demonstrator is available in NOMAD:
+
+https://nomad-lab.eu/oasis-b/projects/wfCObRdJRPeTG-T-U_fH0Q
+
+The solution has additionally been prepared to provide screenshots and other visual material documenting the implemented workflow. These materials will be used for dissemination activities, including talks and poster contributions at the NoBUGS meeting at the end of September 2026.
 
 
 
