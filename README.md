@@ -60,13 +60,13 @@ The demonstrator integrates ontology-based searches for scientific datasets stor
 
 Datasets matching the specified filters are retrieved from the corresponding remote storage systems.
 
-The retrieved datasets can subsequently be processed using the EWOCS workflow manager. EWOCS provides the workflow execution layer for applying predefined data-processing and analysis workflows to the selected datasets.
+The retrieved datasets can subsequently be processed using the EWOKS workflow manager. EWOKS provides the workflow execution layer for applying predefined data-processing and analysis workflows to the selected datasets.
 
 Results produced by these workflows are registered in NOMAD. This allows derived data and analysis results to become part of the same research data management environment as the original datasets and their metadata.
 
 The resulting end-to-end workflow is:
 
-**Ontology-based search → dataset discovery → remote data retrieval → EWOCS processing → generated results → registration in NOMAD**
+**Ontology-based search → dataset discovery → remote data retrieval → KWOCS processing → generated results → registration in NOMAD**
 
 An example of the Scientific Demonstrator is available in NOMAD:
 
