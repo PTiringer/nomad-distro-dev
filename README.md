@@ -1,3 +1,41 @@
+# OSCARS first deliverable September 2026
+
+## Frozen submodule versions
+
+This deliverable uses fixed commits of the included submodules:
+
+- `packages/nomad-FAIR`: [`a6c658e`](https://github.com/PTiringer/nomad-FAIR/tree/a6c658ea6f7b69d70cc9dea771ba3d60fd79e2ea)
+- `packages/wiki-page`: [`a09f673`](https://github.com/PTiringer/wiki-page/tree/a09f6734cd3d1c85df0a45b7ec586b03aa748505)
+- `packages/schemas`: [`3926d77`](https://github.com/PTiringer/schemas/tree/3926d77e609675c57a40203279d1e2f9cc4564f8)
+- `packages/MPI_CBS_scientific_staff_database`: [`e8b820f`] (https://github.com/PTiringer/MPI_CBS_scientific_staff_database/tree/e8b820fbb581effb8a23102e7bff5f807fa8f224)
+- `packages/qa-plotter`: [`af1d940`] (https://github.com/PTiringer/qa-plotter/tree/af1d94090163e5efb9a7b80d2c5e5184bddd5d85)
+
+### Set up the NOMAD platform with the extended ESRTET-PaNET-NeXus ontology at MPI CBS.:
+
+- The platform has been installed on the MPI CBS local infrastructure, a first test instance has been installed on a local linux server: comps11h06.
+- A full test deployment is currently in progress.
+
+### Integrate it to the local environment and data storage. Apply and extend the ontology to also cover additional experiment techniques, like Nuclear Magnetic Resonance. 
+
+- The platform has been developed to the specific needs for the insititut:
+   - the RichTextEditor has been edited to support full screen development.
+   - The explore page has been edited to only support necessary search entries.
+   - A user specific login page has been created, which can be costumized for each user.
+   - A initial version of the schema to support the local RDM workflow has been implemented and added to the platform. See [Schema file](https://github.com/PTiringer/schemas/blob/stable/deliverable/deliverable1.schema.archive.yaml) for further information.
+ 
+### Implement NOMAD plugins for data injestion, and search app.
+
+- A new plugin "wiki page", has been created to set up an environment to store project information and make the information searchable:
+   - A plugin specific feature has been added: To Dos
+   - An AI summary function is currently in work
+
+
+
+
+
+
+# Installation
+
 Start by forking this [main repository](https://github.com/FAIRmat-NFDI/nomad-distro-dev) that will house all your plugins.
 
 # NOMAD Dev Distribution
