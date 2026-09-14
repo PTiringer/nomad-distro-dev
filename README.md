@@ -30,6 +30,36 @@ The resulting metadata are indexed by NOMAD and can therefore be searched and fi
 
 Internal references between NOMAD entries and the underlying data storage provide access to the associated raw datasets without requiring the original data storage structure to be replaced.
 
+### Ontology Mapping
+
+The CBS Projects schema has been converted into an OWL ontology and aligned with established external ontologies and semantic vocabularies. These mappings improve semantic interoperability and allow concepts represented in the CBS schema to be related to established standards.
+
+The ontology currently uses concepts and properties from, among others:
+
+- **Dublin Core Terms (DCTERMS)** – general metadata such as titles, descriptions, provenance, licenses, relations, and access rights.
+- **PROV-O** – representation of provenance, activities, agents, entities, software agents, and derivation relationships.
+- **DCAT** – representation of datasets, distributions, and data resources.
+- **W3C Organization Ontology (ORG)** – organizations, memberships, organizational roles, and affiliations.
+- **FOAF** – representation of people and documents.
+- **Schema.org** – general-purpose concepts for describing research-related entities and metadata.
+- **SKOS** – semantic mappings and relationships between concepts.
+- **OBI (Ontology for Biomedical Investigations)** – concepts describing investigations, studies, instruments, and biomedical research processes.
+- **IAO (Information Artifact Ontology)** – representation of information content entities and documents.
+- **DUO (Data Use Ontology)** – representation of data-use conditions and restrictions.
+- **DataCite Ontology** – identifiers for research resources and persons.
+- **FaBiO (FRBR-aligned Bibliographic Ontology)** – scientific publications and other research outputs, including journal articles, research papers, reports, presentations, and posters.
+- **CiTO (Citation Typing Ontology)** – representation of citations and citation relationships.
+- **SPDX** and **Creative Commons** – representation of licenses and licensing information.
+- **ODRL (Open Digital Rights Language)** – policies, permissions, and duties related to data access and usage.
+- **DPV (Data Privacy Vocabulary)** – concepts related to data protection and privacy.
+- **PREMIS** – concepts related to digital preservation and storage.
+- **W3C Time Ontology** – representation of temporal concepts and intervals.
+- **vCard Ontology** – representation of persons and contact-related information.
+- **UBERON** – anatomical concepts used for biomedical metadata.
+- **NCBI Taxonomy** – representation of organism and species information.
+- **CodeMeta** – metadata describing research software.
+- **BIBO (Bibliographic Ontology)** – bibliographic and publication-related concepts.
+- **ADMS (Asset Description Metadata Schema)** – representation of identifiers and semantic assets.
 
 
 
