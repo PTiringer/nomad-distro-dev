@@ -100,11 +100,11 @@ The resulting end-to-end workflow is:
 
 An example of the Scientific Demonstrator is available in NOMAD:
 
-https://nomad-lab.eu/oasis-b/projects/wfCObRdJRPeTG-T-U_fH0Q
+https://nomad-lab.eu/oasis-b/projects/R5NsPg3ITxuaNvY-6xNgcA
 
 The solution has additionally been prepared to provide screenshots and other visual material documenting the implemented workflow. These materials will be used for dissemination activities, including talks and poster contributions at the NoBUGS meeting at the end of September 2026.
 
-
+![The Scientific Demonstrator](screenshots/Demonstrator.png)
 
 
 
