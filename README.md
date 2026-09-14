@@ -66,7 +66,7 @@ Results produced by these workflows are registered in NOMAD. This allows derived
 
 The resulting end-to-end workflow is:
 
-**Ontology-based search → dataset discovery → remote data retrieval → KWOCS processing → generated results → registration in NOMAD**
+**Ontology-based search → dataset discovery → remote data retrieval → EWOKS processing → generated results → registration in NOMAD**
 
 An example of the Scientific Demonstrator is available in NOMAD:
 
