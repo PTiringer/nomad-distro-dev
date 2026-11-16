@@ -25,6 +25,7 @@ dependencies = [
   "mpi-cbs-scientific-staff-database",
   "qa-plotter",
   "lxml_html_clean",
+  "nomad-gui==2.0.0"
 ]
 
 [tool.uv.workspace]
