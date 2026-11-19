@@ -10,3 +10,10 @@
 [submodule "packages/qa-plotter"]
 	path = packages/qa-plotter
 	url = https://github.com/PTiringer/qa-plotter.git
+[submodule "packages/packages/scientific-equipment-registry"]
+	path = packages/packages/scientific-equipment-registry
+	url = https://github.com/PTiringer/scientific-equipment-registry.git
+	branch = stable
+[submodule "packages/scientific-equipment-registry"]
+	path = packages/scientific-equipment-registry
+	url = https://github.com/PTiringer/scientific-equipment-registry.git
